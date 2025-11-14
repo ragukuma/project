@@ -1,0 +1,1387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR VELS MANPOWER GLOBAL CONSULTANCY</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #ffffff;
+            color: #333;
+            padding: 1rem 3rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            height: 130px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #080599 0%, #080599 50%, #080599 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+        
+        .logo-text .ar-big {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+        
+        .logo-text .rest-text {
+            font-size: 2.3rem;
+            font-weight: 900;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav ul li a:hover {
+            color: #0073e6;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('static/artifacts/head.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: center;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            margin-top: 150px;
+        }
+
+        .hero-content {
+            max-width: 90%;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .hero-content h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            margin-bottom: 2rem;
+            color: #fff;
+            font-weight: 400;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #FFD93D;
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+
+        .cta-button:hover {
+            background: #F6C90E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 217, 61, 0.4);
+        }
+
+        .what-we-do {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            padding: 6rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .what-we-do-image {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .what-we-do-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: #000;
+        }
+
+        .what-we-do-content p {
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .opportunities-section {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .opportunities-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .opportunities-section h2 {
+            text-align: center;
+            color: #000;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .opportunities-subtitle {
+            text-align: center;
+            color: #555;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            margin-bottom: 4rem;
+            padding: 0 1rem;
+        }
+
+        .opportunities-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .opportunities-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .opportunities-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD93D;
+            box-shadow: 0 15px 40px rgba(255, 217, 61, 0.2);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFD93D 0%, #F6C90E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .card-icon i {
+            font-size: 2.5rem;
+            color: #000;
+        }
+
+        .opportunities-card h3 {
+            text-align: center;
+            color: #000;
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .countries-list, .jobs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .country-tag, .job-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+        }
+
+        .country-tag:hover, .job-item:hover {
+            transform: translateY(-8px);
+            border-color: #FFD93D;
+            box-shadow: 0 10px 30px rgba(255, 217, 61, 0.3);
+        }
+
+        .country-image, .job-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .country-content, .job-content {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            background: #f8f9fa;
+        }
+
+        .country-content i, .job-content i {
+            color: #FFD93D;
+            font-size: 1.3rem;
+        }
+
+        .country-tag:hover .country-content, .job-item:hover .job-content {
+            background: #FFD93D;
+        }
+
+        .country-tag:hover .country-content i, .job-item:hover .job-content i {
+            color: #000;
+        }
+
+        .country-name, .job-name {
+            color: #333;
+            font-weight: 600;
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        }
+
+        #about {
+            padding: 6rem 5%;
+            background-color: #ffffff;
+        }
+
+        #about .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #about h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #000;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        #about .section-title {
+            color: #000;
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }
+
+        #about p {
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            color: #555;
+            font-size: clamp(1rem, 1.5vw, 1.1rem);
+        }
+
+        #services {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+        }
+
+        #services h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #FFD93D;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        #services .subtitle {
+            text-align: center;
+            color: #cccccc;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            margin-bottom: 4rem;
+            padding: 0 1rem;
+        }
+
+        .process-timeline {
+            position: relative;
+            padding: 20px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, #FFD93D 0%, #F6C90E 100%);
+            opacity: 0.3;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .process-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step-content {
+            width: 45%;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #FFD93D;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .step-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 217, 61, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .step-number {
+            font-size: 3em;
+            color: #FFD93D;
+            font-weight: bold;
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: #1a1a1a;
+            border: 3px solid #FFD93D;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .step-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: #FFD93D;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .step-title {
+            color: #FFD93D;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .step-description {
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: clamp(0.9rem, 1.5vw, 0.95rem);
+        }
+
+        .review-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 5%;
+            background: #f8f9fa;
+        }
+
+        .review-section h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #000;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .review-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 3rem;
+        }
+
+        .review-form h3 {
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            margin-bottom: 2rem;
+            color: #000;
+        }
+
+        .star-rating {
+            font-size: 2rem;
+            color: #FFD93D;
+            cursor: pointer;
+            margin: 1rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #FFD93D;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: #000;
+            color: #FFD93D;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #222;
+            transform: translateY(-2px);
+        }
+
+        .reviews-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .review-card h3 {
+            color: #000;
+            margin-bottom: 0.5rem;
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+        }
+
+        .load-more-btn {
+            display: block;
+            margin: 3rem auto;
+            padding: 1rem 3rem;
+            background: #000;
+            color: #FFD93D;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: auto;
+        }
+
+        #contact {
+            padding: 6rem 5%;
+            background: #fff;
+        }
+
+        #contact h2 {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: #000;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            font-style: italic;
+        }
+
+        .contact-info {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD93D;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            color: #FFD93D;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card p {
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            font-weight: 500;
+            color: #333;
+            word-break: break-word;
+        }
+
+        .address-section {
+            max-width: 1000px;
+            margin: 4rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .address-card {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 10px;
+            text-align: left;
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .address-card:hover {
+            transform: translateY(-5px);
+            border-color: #FFD93D;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .address-card i {
+            display: block;
+            text-align: center;
+            font-size: 2rem;
+            color: #FFD93D;
+            margin-bottom: 1.5rem;
+        }
+
+        .address-card h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #000;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-weight: 600;
+        }
+
+        .address-card p {
+            text-align: center;
+            line-height: 1.8;
+            color: #333;
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        }
+
+        @media (max-width: 1024px) {
+            header {
+                padding: 1rem 2rem;
+            }
+
+            .what-we-do {
+                gap: 2rem;
+                padding: 4rem 5%;
+            }
+
+            .countries-list, .jobs-list {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .logo-container {
+                gap: 0.5rem;
+            }
+
+            .logo {
+                height: 60px;
+            }
+
+            .logo-text .ar-big {
+                font-size: 1.3rem;
+            }
+            
+            .logo-text .rest-text {
+                font-size: 0.9rem;
+            }
+
+            .hamburger {
+                display: flex;
+                order: 3;
+            }
+
+            nav {
+                order: 4;
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            nav.active {
+                max-height: 400px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+            }
+
+            nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .hero {
+                margin-top: 120px;
+                background-attachment: scroll;
+                padding: 2rem 5%;
+            }
+
+            .what-we-do {
+                grid-template-columns: 1fr;
+                padding: 3rem 5%;
+                gap: 2rem;
+            }
+
+            .opportunities-section {
+                padding: 3rem 5%;
+            }
+
+            .opportunities-card {
+                padding: 1.5rem;
+            }
+
+            .countries-list, .jobs-list {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .process-step {
+                flex-direction: column !important;
+                margin-bottom: 60px;
+            }
+
+            .step-content {
+                width: 100%;
+                margin-top: 50px;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .step-icon {
+                left: 30px;
+                transform: translateX(0);
+            }
+
+            #about, #services, .review-section, #contact {
+                padding: 3rem 5%;
+            }
+
+            .review-form {
+                padding: 1.5rem;
+            }
+
+            button {
+                padding: 1rem 2rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+
+            .address-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                height: 50px;
+            }
+
+            .logo-text {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+            }
+
+            .logo-text .ar-big {
+                font-size: 1.1rem;
+            }
+            
+            .logo-text .rest-text {
+                font-size: 0.75rem;
+            }
+
+            .hero {
+                margin-top: 140px;
+            }
+
+            .countries-list, .jobs-list {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+
+            .reviews-display {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="static\artifacts\logo3.png" alt="AR Vels Logo" class="logo">
+            <div class="logo-text">
+                <span class="ar-big">A.R.</span><span class="rest-text">VELS MANPOWER GLOBAL CONSULTANCY</span>
+            </div>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav id="mainNav">
+            <ul>
+                <li><a href="#home" onclick="closeMenu()">Home</a></li>
+                <li><a href="#what-we-do" onclick="closeMenu()">What we do</a></li>
+                <li><a href="#about" onclick="closeMenu()">About</a></li>
+                <li><a href="#services" onclick="closeMenu()">Services</a></li>
+                <li><a href="#reviews" onclick="closeMenu()">Reviews</a></li>
+                <li><a href="#contact" onclick="closeMenu()">Contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h2>A.R.VELS MANPOWER GLOBAL CONSULTANCY</h2>
+            <p>Transforming careers and businesses one placement at a time</p>
+            <a href="#contact" class="cta-button">Get in touch</a>
+        </div>
+    </section>
+
+    <section class="what-we-do" id="what-we-do">
+        <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=800&h=600&fit=crop" alt="What we do" class="what-we-do-image">
+        <div class="what-we-do-content">
+            <h2>What we do</h2>
+            <p>Working in close partnership with our clients to ensure we learn the culture, ambitions and DNA to attract, engage and introduce the very best talent.</p>
+            <p>Using innovation, culture alignment and creative methods to enable your company to become an employer of choice. Attracting, engaging and hiring the industries best agents of change.</p>
+        </div>
+    </section>
+
+    <section class="opportunities-section">
+        <div class="opportunities-container">
+            <h2>Global Opportunities Await</h2>
+            <p class="opportunities-subtitle">We connect talented professionals with leading employers across multiple countries and industries</p>
+            
+            <div class="opportunities-grid">
+                <div class="opportunities-card">
+                    <div class="card-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Job Categories</h3>
+                    <div class="jobs-list">
+                        <div class="job-item">
+                          <img src="https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?fit=crop&w=800&q=80" alt="Professional homecare nurse with senior patient" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-heart"></i>
+                                <span class="job-name">Homecare</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop&q=80" alt="Professional housekeeping services" class="job-image">
+
+                            <div class="job-content">
+                                <i class="fas fa-broom"></i>
+                                <span class="job-name">Housekeeping</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&h=600&fit=crop&q=80" alt="Civil Engineering Construction" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-hard-hat"></i>
+                                <span class="job-name">Civil Engineering</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="static\artifacts\mechanical.jpg" alt="Engine Components and Parts" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-hard-hat"></i>
+                                <span class="job-name">Mechanical Engineering</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="static\artifacts\nursing.jpg" alt="Nursing" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-user-nurse"></i>
+                                <span class="job-name">Nursing</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop" alt="IT Services" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-laptop-code"></i>
+                                <span class="job-name">IT Services</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=400&h=300&fit=crop" alt="Supermarket" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="job-name">Supermarket</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="static\artifacts\electric.jpg" alt="Electrician" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-bolt"></i>
+                                <span class="job-name">Electrician</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="static\artifacts\plumber.jpg" alt="Plumber" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-wrench"></i>
+                                <span class="job-name">Plumber</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&h=300&fit=crop" alt="Accounting" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-calculator"></i>
+                                <span class="job-name">Accounting</span>
+                            </div>
+                        </div>
+                        <div class="job-item">
+                            <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400&h=300&fit=crop" alt="Medical Field" class="job-image">
+                            <div class="job-content">
+                                <i class="fas fa-stethoscope"></i>
+                                <span class="job-name">Medical Field</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunities-card">
+                    <div class="card-icon">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <h3>Countries We Serve</h3>
+                    <div class="countries-list">
+                        <div class="country-tag">
+                            <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?w=400&h=300&fit=crop" alt="Malaysia" class="country-image">
+                            <div class="country-content">
+                                <i class="fas fa-flag"></i>
+                                <span class="country-name">Malaysia</span>
+                            </div>
+                        </div>
+                        <div class="country-tag">
+                            <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?w=400&h=300&fit=crop" alt="Singapore" class="country-image">
+                            <div class="country-content">
+                                <i class="fas fa-flag"></i>
+                                <span class="country-name">Singapore</span>
+                            </div>
+                        </div>
+                        <div class="country-tag">
+                            <img src="https://images.unsplash.com/photo-1562832135-14a35d25edef?w=400&h=300&fit=crop" alt="Qatar" class="country-image">
+                            <div class="country-content">
+                                <i class="fas fa-flag"></i>
+                                <span class="country-name">Qatar</span>
+                            </div>
+                        </div>
+                        <div class="country-tag">
+                            <img src="https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=400&h=300&fit=crop" alt="Gulf Countries" class="country-image">
+                            <div class="country-content">
+                                <i class="fas fa-flag"></i>
+                                <span class="country-name">Gulf Countries</span>
+                            </div>
+                        </div>
+                        <div class="country-tag">
+                            <img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&h=300&fit=crop" alt="India" class="country-image">
+                            <div class="country-content">
+                                <i class="fas fa-flag"></i>
+                                <span class="country-name">India</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About Us</h2>
+        <div class="about-content">
+            <p class="intro-text">
+                Welcome to A.R Vels Manpower Global Consultancy, your trusted gateway to international employment success. We are a dynamic overseas recruitment firm dedicated to connecting skilled professionals with world-class employers across the globe. Backed by integrity, experience, and a passion for excellence, our consultancy empowers candidates to achieve their global career aspirations while helping employers build competent, reliable, and future-ready teams.
+            </p>
+    
+            <div class="about-section">
+                <h3 class="section-title">Comprehensive End-to-End Services</h3>
+                <p>
+                    Our mission is simple — to empower talent and bridge opportunities beyond borders. With a strong global network, transparent processes, and end-to-end support covering documentation, visa processing, and placement, we ensure each candidate's journey is guided with care and precision. For employers, we deliver verified, skilled, and culturally aligned professionals ready to contribute from day one.
+                </p>
+            </div>
+    
+            <div class="about-section">
+                <h3 class="section-title">Customer-Centric Approach</h3>
+                <p>
+                    Our motto is to treat every customer like family. We understand that career transitions are more than just job changes; they're life-changing decisions. Our dedicated recruitment professionals are with you every step of the way, providing personalized service and support to ensure your journey is as smooth and successful as possible.
+                </p>
+            </div>
+    
+            <div class="about-section">
+                <h3 class="section-title">Variety of Opportunities</h3>
+                <p>
+                    We believe that every professional is unique, and so are their career aspirations. That's why we offer opportunities across diverse industries and regions designed to cater to different skills and ambitions. From entry-level positions to executive roles, our placements are thoughtfully matched to deliver exceptional value and fulfilling careers.
+                </p>
+            </div>
+    
+            <div class="about-section">
+                <h3 class="section-title">Our Mission</h3>
+                <p>
+                    Our mission is to provide exceptional recruitment services that exceed our clients' expectations. We strive to build long-term relationships with both candidates and employers by delivering personalized care and ensuring satisfaction throughout the entire recruitment journey.
+                </p>
+            </div>
+    
+            <p>
+                Join us at AR Vels Manpower Global Consultancy, where your career dreams become a reality, and every placement is a successful partnership.
+            </p>
+        </div>
+    </section>
+    
+    <section id="services">
+        <h2>Our Consultancy Process</h2>
+        <p class="subtitle">Your Journey to Career Success in 6 Simple Steps</p>
+        
+        <div class="process-timeline">
+            <div class="timeline-line"></div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">01</div>
+                    <h3 class="step-title">Inquiry & Registration</h3>
+                    <p class="step-description">Begin your journey by reaching out to us. We'll gather your basic information and understand your career goals to provide personalized guidance.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">02</div>
+                    <h3 class="step-title">Resume Review</h3>
+                    <p class="step-description">Our experts analyze your resume, highlighting strengths and areas for improvement to ensure it stands out to potential employers.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">03</div>
+                    <h3 class="step-title">Career Counseling</h3>
+                    <p class="step-description">One-on-one sessions with experienced counselors to explore opportunities, refine your career path, and set achievable goals.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">04</div>
+                    <h3 class="step-title">Interview Preparation</h3>
+                    <p class="step-description">Comprehensive training including mock interviews, common questions, and communication skills to boost your confidence.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        <line x1="9" y1="10" x2="15" y2="10"></line>
+                        <line x1="12" y1="7" x2="12" y2="13"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">05</div>
+                    <h3 class="step-title">Job Matching</h3>
+                    <p class="step-description">Access our extensive network of employers. We match your skills and preferences with the right opportunities for you.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="process-step">
+                <div class="step-content">
+                    <div class="step-number">06</div>
+                    <h3 class="step-title">Post-Placement Support</h3>
+                    <p class="step-description">Our commitment doesn't end at placement. We provide ongoing support to ensure smooth onboarding and career growth.</p>
+                </div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reviews" class="review-section">
+        <h2>Client Reviews</h2>
+        <div class="review-form">
+            <h3>Share Your Experience</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label>Rate your experience:</label>
+                    <div class="star-rating" id="starRating">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="phone" placeholder="Your Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="review" placeholder="Share your experience..." required></textarea>
+                </div>
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+
+        <div class="reviews-display" id="reviewsDisplay"></div>
+        <button class="load-more-btn" id="loadMoreBtn">View More Reviews</button>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <div class="contact-card">
+                <i class="fas fa-phone"></i>
+                <p>+91 9566188692</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-phone"></i>
+                <p>+91 9629747411</p>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <p>arvelsmanpowerglobalconsultanc@gmail.com</p>
+            </div>
+        </div>
+        
+        <div class="address-section">
+            <div class="address-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Main Branch</h3>
+                <p>
+                    AR VELS MANPOWER GLOBAL CONSULTANCY<br>
+                    Number 129, Asanampattu Road<br>
+                    Reddy Thoppu, Ambur Town & Taluka<br>
+                    Thirupattur District - 635802<br>
+                    Tamil Nadu, India
+                </p>
+            </div>
+            <div class="address-card" style="margin-top: 2rem;">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Branch Office</h3>
+                <p>
+                    AR VELS MANPOWER GLOBAL CONSULTANCY<br>
+                    Near Kannikapuram Taluk Office<br>
+                    New Govindapuram, Ambur Town & Taluk<br>
+                    Tirupattur District - 635802<br>
+                    Tamil Nadu, India
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const API_URL = "http://localhost:5000";
+        
+        let currentLimit = 5;
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewsDisplay = document.getElementById('reviewsDisplay');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        let selectedRating = 0;
+
+        const starRating = document.getElementById('starRating');
+        const stars = starRating.getElementsByTagName('i');
+
+        starRating.addEventListener('click', (e) => {
+            if (e.target.tagName === 'I') {
+                selectedRating = parseInt(e.target.getAttribute('data-rating'));
+                updateStars();
+            }
+        });
+
+        starRating.addEventListener('mouseover', (e) => {
+            if (e.target.tagName === 'I') {
+                const rating = parseInt(e.target.getAttribute('data-rating'));
+                highlightStars(rating);
+            }
+        });
+
+        starRating.addEventListener('mouseout', () => {
+            updateStars();
+        });
+
+        function highlightStars(rating) {
+            for (let i = 0; i < stars.length; i++) {
+                stars[i].className = i < rating ? 'fas fa-star' : 'far fa-star';
+            }
+        }
+
+        function updateStars() {
+            highlightStars(selectedRating);
+        }
+
+        async function fetchReviews(limit) {
+            try {
+                const response = await fetch(`${API_URL}/api/reviews?limit=${limit}`);
+                const reviews = await response.json();
+                displayReviews(reviews);
+            } catch (error) {
+                console.error('Error fetching reviews:', error);
+            }
+        }
+
+        function displayReviews(reviews) {
+            reviewsDisplay.innerHTML = '';
+            reviews.forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'review-card';
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                
+                reviewCard.innerHTML = `
+                    <h3>${review.name}</h3>
+                    <div class="star-rating" style="color: #FFD93D;">${stars}</div>
+                    <p>${review.review}</p>
+                    
+                `;
+                reviewsDisplay.appendChild(reviewCard);
+            });
+        }
+
+        loadMoreBtn.addEventListener('click', () => {
+            currentLimit += 5;
+            fetchReviews(currentLimit);
+        });
+
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (selectedRating === 0) {
+                alert('Please select a rating');
+                return;
+            }
+
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                review: document.getElementById('review').value.trim(),
+                rating: selectedRating
+            };
+
+            console.log('Submitting data:', formData);  // ADD THIS
+
+            try {
+                const response = await fetch(`${API_URL}/api/reviews`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                console.log('Response status:', response.status);  // ADD THIS
+                const result = await response.json();
+                console.log('Response data:', result);  // ADD THIS
+
+                if (response.ok) {
+                    alert('Thank you for your review!');
+                    reviewForm.reset();
+                    selectedRating = 0;
+                    updateStars();
+                    fetchReviews(currentLimit);
+                } else {
+                 // ADD THIS - Show actual error
+                    alert('Error: ' + (result.error || result.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error details:', error);  // ADD THIS
+                alert('Failed to submit: ' + error.message);  // CHANGE THIS
+          }
+       });
+
+        fetchReviews(currentLimit);
+
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
