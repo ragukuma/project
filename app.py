@@ -4,6 +4,7 @@ from datetime import datetime
 import mysql.connector
 from mysql.connector import pooling
 import os
+import traceback
 
 app = Flask(__name__)
 CORS(app)
@@ -81,11 +82,13 @@ def add_review():
     cursor = None
     try:
         data = request.json
+        print(f"📝 Received review data: {data}")
         
         # Validate required fields
         required_fields = ['name', 'email', 'phone', 'rating', 'review']
         for field in required_fields:
             if field not in data or not str(data[field]).strip():
+                print(f"❌ Missing field: {field}")
                 return jsonify({
                     "status": "error", 
                     "message": f"Missing or empty field: {field}"
@@ -125,7 +128,7 @@ def add_review():
         # CRITICAL: Explicit commit saves data permanently
         conn.commit()
         
-        print(f"✅ Review saved - ID: {review_id}, Name: {data['name']}, Rating: {rating}")
+        print(f"✅ Review created successfully: ID {review_id}")
         
         return jsonify({
             "status": "success",
@@ -156,7 +159,6 @@ def add_review():
             "message": str(e)
         }), 500
     finally:
-        # Always close resources
         if cursor:
             cursor.close()
         if conn:
@@ -170,7 +172,6 @@ def get_reviews():
     try:
         limit = request.args.get('limit', default=50, type=int)
         
-        # Validate limit
         if limit < 1 or limit > 100:
             return jsonify({
                 "status": "error", 
@@ -440,7 +441,114 @@ def test_connection():
         if conn:
             conn.close()
 
+@app.route('/api/raw-connection-test', methods=['GET'])
+def raw_connection_test():
+    """Test raw MySQL connection with detailed logging"""
+    logs = []
+    
+    try:
+        logs.append("=== TESTING RAW MYSQL CONNECTION ===")
+        
+        # Test 1: Direct connection (no pool)
+        logs.append(f"Step 1: Connecting to {db_config['host']}")
+        logs.append(f"Database: {db_config['database']}")
+        logs.append(f"User: {db_config['user']}")
+        
+        conn = mysql.connector.connect(
+            host=db_config['host'],
+            user=db_config['user'],
+            password=db_config['password'],
+            database=db_config['database'],
+            port=db_config['port']
+        )
+        logs.append("✅ Raw connection successful!")
+        
+        # Test 2: Check database
+        cursor = conn.cursor()
+        cursor.execute("SELECT DATABASE()")
+        current_db = cursor.fetchone()[0]
+        logs.append(f"✅ Connected to database: {current_db}")
+        
+        # Test 3: Check table exists
+        cursor.execute("SHOW TABLES LIKE 'reviews'")
+        table_exists = cursor.fetchone()
+        if table_exists:
+            logs.append("✅ 'reviews' table EXISTS")
+        else:
+            logs.append("❌ 'reviews' table DOES NOT EXIST!")
+            return jsonify({"status": "error", "logs": logs}), 500
+        
+        # Test 4: Insert test review
+        logs.append("Step 4: Inserting test review...")
+        insert_query = """
+            INSERT INTO reviews (name, email, phone, gender, rating, review, created_at)
+            VALUES (%s, %s, %s, %s, %s, %s, NOW())
+        """
+        test_data = ('CONNECTION TEST', 'test@connection.com', '0000000000', 'Test', 5, f'Test at {datetime.now()}')
+        cursor.execute(insert_query, test_data)
+        inserted_id = cursor.lastrowid
+        logs.append(f"✅ INSERT executed, got ID: {inserted_id}")
+        
+        # Test 5: Commit
+        logs.append("Step 5: Committing...")
+        conn.commit()
+        logs.append("✅ COMMIT successful")
+        
+        # Test 6: Verify in same connection
+        cursor.execute("SELECT * FROM reviews WHERE id = %s", (inserted_id,))
+        found_same = cursor.fetchone()
+        if found_same:
+            logs.append(f"✅ Found in same connection")
+        else:
+            logs.append(f"❌ NOT found in same connection!")
+        
+        cursor.close()
+        conn.close()
+        
+        # Test 7: New connection verification
+        logs.append("Step 7: Opening NEW connection...")
+        conn2 = mysql.connector.connect(
+            host=db_config['host'],
+            user=db_config['user'],
+            password=db_config['password'],
+            database=db_config['database'],
+            port=db_config['port']
+        )
+        cursor2 = conn2.cursor(dictionary=True)
+        
+        cursor2.execute("SELECT * FROM reviews WHERE id = %s", (inserted_id,))
+        found_new = cursor2.fetchone()
+        
+        if found_new:
+            logs.append(f"✅✅✅ SUCCESS! Data persists in NEW connection!")
+        else:
+            logs.append(f"❌❌❌ FAILED! Data NOT found in new connection!")
+        
+        # Count total
+        cursor2.execute("SELECT COUNT(*) as cnt FROM reviews")
+        total = cursor2.fetchone()['cnt']
+        logs.append(f"Total reviews in database: {total}")
+        
+        cursor2.close()
+        conn2.close()
+        
+        return jsonify({
+            "status": "success",
+            "inserted_id": inserted_id,
+            "persisted": found_new is not None,
+            "total_reviews": total,
+            "logs": logs
+        }), 200
+        
+    except Exception as e:
+        logs.append(f"❌ ERROR: {str(e)}")
+        logs.append(f"Traceback: {traceback.format_exc()}")
+        return jsonify({
+            "status": "error",
+            "error": str(e),
+            "logs": logs
+        }), 500
+
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     app.run(host="0.0.0.0", debug=False, port=port)
-    
