@@ -24,7 +24,7 @@ connection_pool = pooling.MySQLConnectionPool(
     pool_name="review_pool",
     pool_size=5,
     pool_reset_session=True,
-    **db_config
+    **db_configM
 )
 
 def get_connection():
