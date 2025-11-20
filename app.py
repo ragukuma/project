@@ -16,10 +16,10 @@ db_config = {
     "password": os.getenv("DB_PASSWORD", "Arvels123"),
     "database": os.getenv("DB_NAME", "u772270336_arvels"),
     "port": int(os.getenv("DB_PORT", "3306")),
-    "autocommit": False  # CRITICAL: Explicit transaction control
+    "autocommit": False
 }
 
-# Create connection pool with proper settings
+# Create connection pool
 connection_pool = pooling.MySQLConnectionPool(
     pool_name="review_pool",
     pool_size=5,
@@ -31,7 +31,7 @@ def get_connection():
     """Get a connection from pool with proper configuration"""
     try:
         conn = connection_pool.get_connection()
-        conn.autocommit = False  # Ensure explicit commits
+        conn.autocommit = False
         return conn
     except mysql.connector.Error as err:
         print(f"❌ Error getting connection: {err}")
@@ -75,9 +75,26 @@ def init_database():
 # Initialize database on startup
 init_database()
 
+@app.route('/')
+def home():
+    """Root endpoint"""
+    return jsonify({
+        "message": "Review API Server",
+        "status": "running",
+        "endpoints": {
+            "POST /api/reviews": "Add a new review",
+            "GET /api/reviews": "Get all reviews",
+            "DELETE /api/reviews/<id>": "Delete a review",
+            "GET /api/stats": "Get review statistics",
+            "GET /api/health": "Health check",
+            "GET /api/test-connection": "Test database connection",
+            "GET /api/raw-connection-test": "Raw connection test"
+        }
+    }), 200
+
 @app.route('/api/reviews', methods=['POST'])
 def add_review():
-    """Add a new review with guaranteed persistence"""
+    """Add a new review"""
     conn = None
     cursor = None
     try:
@@ -94,7 +111,7 @@ def add_review():
                     "message": f"Missing or empty field: {field}"
                 }), 400
         
-        # Validate rating range
+        # Validate rating
         rating = int(data['rating'])
         if rating < 1 or rating > 5:
             return jsonify({
@@ -102,11 +119,9 @@ def add_review():
                 "message": "Rating must be between 1 and 5"
             }), 400
         
-        # Get fresh connection
         conn = get_connection()
         cursor = conn.cursor()
         
-        # Gender is optional
         gender = data.get('gender', 'Not specified')
         
         query = """
@@ -124,8 +139,6 @@ def add_review():
         
         cursor.execute(query, values)
         review_id = cursor.lastrowid
-        
-        # CRITICAL: Explicit commit saves data permanently
         conn.commit()
         
         print(f"✅ Review created successfully: ID {review_id}")
@@ -166,7 +179,7 @@ def add_review():
 
 @app.route('/api/reviews', methods=['GET'])
 def get_reviews():
-    """Get reviews with fresh database read"""
+    """Get all reviews"""
     conn = None
     cursor = None
     try:
@@ -181,7 +194,6 @@ def get_reviews():
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # Ensure we read committed data
         cursor.execute("SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED")
         
         query = """
@@ -196,7 +208,7 @@ def get_reviews():
         
         print(f"✅ Fetched {len(reviews)} reviews from database")
         
-        # Convert datetime to string for JSON serialization
+        # Convert datetime to string
         for review in reviews:
             if review['created_at']:
                 review['created_at'] = review['created_at'].strftime('%Y-%m-%d %H:%M:%S')
@@ -232,8 +244,6 @@ def delete_review(review_id):
         
         query = "DELETE FROM reviews WHERE id = %s"
         cursor.execute(query, (review_id,))
-        
-        # CRITICAL: Commit the deletion
         conn.commit()
         
         if cursor.rowcount == 0:
@@ -274,22 +284,19 @@ def delete_review(review_id):
 
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
-    """Get statistics about reviews"""
+    """Get review statistics"""
     conn = None
     cursor = None
     try:
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
         
-        # Total reviews
         cursor.execute("SELECT COUNT(*) as total FROM reviews")
         total = cursor.fetchone()['total']
         
-        # Average rating
         cursor.execute("SELECT AVG(rating) as avg_rating FROM reviews")
         avg_rating = cursor.fetchone()['avg_rating'] or 0
         
-        # Rating distribution
         cursor.execute("""
             SELECT rating, COUNT(*) as count 
             FROM reviews 
@@ -337,7 +344,7 @@ def get_stats():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint for monitoring"""
+    """Health check endpoint"""
     conn = None
     cursor = None
     try:
@@ -346,7 +353,6 @@ def health_check():
         cursor.execute("SELECT 1")
         cursor.fetchone()
         
-        # Also check reviews table and count
         cursor.execute("SELECT COUNT(*) FROM reviews")
         count = cursor.fetchone()[0]
         
@@ -371,38 +377,32 @@ def health_check():
 
 @app.route('/api/test-connection', methods=['GET'])
 def test_connection():
-    """Detailed connection test for debugging"""
+    """Detailed connection test"""
     results = {}
     conn = None
     cursor = None
     
     try:
-        # Test 1: Connection pool
         results['connection_pool'] = 'OK'
         
-        # Test 2: Get connection
         conn = get_connection()
         results['get_connection'] = 'OK'
         
-        # Test 3: Execute query
         cursor = conn.cursor()
         cursor.execute("SELECT 1")
         cursor.fetchone()
         results['execute_query'] = 'OK'
         
-        # Test 4: Check table exists
         cursor.execute("SHOW TABLES LIKE 'reviews'")
         if cursor.fetchone():
             results['table_exists'] = 'OK'
         else:
             results['table_exists'] = 'FAILED - Table not found'
         
-        # Test 5: Count reviews
         cursor.execute("SELECT COUNT(*) FROM reviews")
         count = cursor.fetchone()[0]
         results['review_count'] = count
         
-        # Test 6: Get recent reviews
         cursor.execute("""
             SELECT id, name, rating, created_at 
             FROM reviews 
@@ -443,13 +443,11 @@ def test_connection():
 
 @app.route('/api/raw-connection-test', methods=['GET'])
 def raw_connection_test():
-    """Test raw MySQL connection with detailed logging"""
+    """Raw MySQL connection test with detailed logging"""
     logs = []
     
     try:
         logs.append("=== TESTING RAW MYSQL CONNECTION ===")
-        
-        # Test 1: Direct connection (no pool)
         logs.append(f"Step 1: Connecting to {db_config['host']}")
         logs.append(f"Database: {db_config['database']}")
         logs.append(f"User: {db_config['user']}")
@@ -463,13 +461,11 @@ def raw_connection_test():
         )
         logs.append("✅ Raw connection successful!")
         
-        # Test 2: Check database
         cursor = conn.cursor()
         cursor.execute("SELECT DATABASE()")
         current_db = cursor.fetchone()[0]
         logs.append(f"✅ Connected to database: {current_db}")
         
-        # Test 3: Check table exists
         cursor.execute("SHOW TABLES LIKE 'reviews'")
         table_exists = cursor.fetchone()
         if table_exists:
@@ -478,7 +474,6 @@ def raw_connection_test():
             logs.append("❌ 'reviews' table DOES NOT EXIST!")
             return jsonify({"status": "error", "logs": logs}), 500
         
-        # Test 4: Insert test review
         logs.append("Step 4: Inserting test review...")
         insert_query = """
             INSERT INTO reviews (name, email, phone, gender, rating, review, created_at)
@@ -489,12 +484,10 @@ def raw_connection_test():
         inserted_id = cursor.lastrowid
         logs.append(f"✅ INSERT executed, got ID: {inserted_id}")
         
-        # Test 5: Commit
         logs.append("Step 5: Committing...")
         conn.commit()
         logs.append("✅ COMMIT successful")
         
-        # Test 6: Verify in same connection
         cursor.execute("SELECT * FROM reviews WHERE id = %s", (inserted_id,))
         found_same = cursor.fetchone()
         if found_same:
@@ -505,7 +498,6 @@ def raw_connection_test():
         cursor.close()
         conn.close()
         
-        # Test 7: New connection verification
         logs.append("Step 7: Opening NEW connection...")
         conn2 = mysql.connector.connect(
             host=db_config['host'],
@@ -524,7 +516,6 @@ def raw_connection_test():
         else:
             logs.append(f"❌❌❌ FAILED! Data NOT found in new connection!")
         
-        # Count total
         cursor2.execute("SELECT COUNT(*) as cnt FROM reviews")
         total = cursor2.fetchone()['cnt']
         logs.append(f"Total reviews in database: {total}")
